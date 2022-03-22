@@ -1,0 +1,731 @@
+
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noticia+Text">
+<link href="https://fonts.googleapis.com/css2?family=Asap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto" rel="stylesheet">
+
+<style>
+
+.light-gray-text {
+  fill: #aaa;
+  color: #aaa;
+}
+
+.eighteen {
+  fill: #009FB8;
+  font-weight: bold;
+}
+
+.nineteen {
+  fill: #3E80B6;
+  font-weight: bold;
+}
+
+.twenty {
+  fill: #e63946;
+  font-weight: bold;
+}
+
+text {
+  font-family: "Asap" !important;
+}
+
+.paragraph {
+  font-family: "Noticia text" !important;
+}
+
+.href {
+  color: #666;
+  fill: #666;
+}
+ 
+.highcharts-title {
+  font-family: "Noticia text" !important;
+  font-weight: bold !important;
+  text-align: left !important; 
+  /* font-size: 0.9rem !important;  */
+  left: 10px !important;
+}
+
+.highcharts-subtitle {
+  text-align: left !important; 
+  font-size: 0.95rem !important; 
+  left: 10px !important;
+  font-family: "Asap" !important;
+}
+
+.highcharts-data-labels text {
+  font-size: 0.85rem !important;
+}
+
+.highcharts-axis-labels text {
+  font-size: 0.85rem !important;
+}
+
+text.highcharts-plot-line-label {
+  font-size: 0.85rem !important;
+  fill: #666;
+}
+
+text.highcharts-plot-band-label {
+  font-size: 0.85rem !important;
+  fill: #666;
+}
+
+text.highcharts-credits {
+  font-size: 0.75rem !important;
+}
+
+.highcharts-tooltip span {
+  font-family: "Asap" !important;
+}
+
+/* Custom classes */
+.axis-label-on-tick {
+  fill: #aaa;
+  color: #aaa;
+}
+
+.mock-empty-line {
+  fill: #fff;
+  color: #fff;
+}
+
+.highcharts-tooltip-container {
+   z-index: 100 !important;
+}
+
+</style>
+
+<!-- html -->
+<div id="g1"></div>
+
+<script>
+
+var colors = {
+  'doma': '#ddd',
+  '1': '#e53935', 
+  '2': '#3949ab', 
+  '3': '#039be5', 
+  '4': '#00897b',  
+  '5': '#fdd835',
+  '6': '#f4511e',
+  '7': '#6d4c41',
+  '8': '#546e7a',
+
+  'tapeta': '#f6f6f6',
+  'sk': '#00897b',
+  'de': '#fdd835',
+  'pl': '#6d4c41',
+  'ro': '#546e7a',
+  'bu': '#7cb342',
+  'ukdark': '#b71c1c',
+  'muzi': '#3949ab', 
+  'zeny' : '#e53935',
+  'cechy': '#f6f6f6',
+  'morava': '#fff' 
+}
+
+Highcharts.setOptions({
+    lang: {
+      months: ['ledna', 'února', 'března', 'dubna', 'května', 'června', 'července', 'srpna', 'září', 'října', 'listopadu', 'prosince'],
+      shortMonths: ['leden', 'únor', 'březen', 'duben', 'květen', 'červen', 'červenec', 'srpen', 'září', 'říjen', 'listopad', 'prosinec'],
+      decimalPoint: ',',
+      numericSymbols: [' tis.', ' mil.', 'mld.', 'T', 'P', 'E'],
+      rangeSelectorFrom: 'od',
+      rangeSelectorTo: 'do',
+      rangeSelectorZoom: 'vyberte období:',
+    },
+  });
+
+let chartWidth =
+document.getElementById("g1").offsetWidth > 600
+  ? 600
+  : document.getElementById("g1").offsetWidth;
+
+</script>
+
+<script>
+
+const g1_obdobi = [1991,1992,1993,1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021],
+      g1_doma = [0,590290,2376270,2002453,1853461,1635934,1552581,1711663,1717671,1462163,1288729,1135393,1000073,955619,683178,566082,469818,539481,512526,500268,494955,479769,446843,428038,428019,420342,406479,398114,395492,344091,335294],
+      g1_de = [null,null,null,350000,320000,330000,245000,100000,50000,67472,67845,237354,217874,180584,131651,121396,146590,162164,175635,178956,165354,168232,34643,53102,79127,37504,23139,19218,16662,13928,12924],
+      g1_se = [2647,3721,34178,70329,72699,73062,78508,81437,81900,83574,84561,94787,62918,25371,22621,21470,17389,14305,13682,12714,11180,8170,6337,6239,4147,3217,2321,1857,1613,1284,1117],
+      g1_at = [null,42918,39728,null,null,74131,69885,68815,72134,5364,5536,5429,5034,5357,5381,13755,12612,12378,8639,7156,5671,4946,4749,3062,3733,2820,1943,1440,1109,812,739],
+      g1_fr = [null,null,null,15000,5886,6116,6267,6565,6966,4997,5374,7230,7407,9101,10576,11189,11896,12524,13809,14359,15387,17196,20585,19864,21288,20350,21164,21976,21899,21345,20100],
+      g1_nl = [null,89,8965,16446,24323,28910,31170,31923,32345,41577,39795,37413,27009,19418,11213,7145,3404,3043,2781,2088,1347,992,617,651,829,170,35,30,90,56,43],
+      g1_dn = [85,121,2850,6248,24386,28517,29968,30576,31317,33856,29691,33113,30429,27245,9495,5659,4419,4121,3612,3494,2035,1385,891,545,376,19,24,21,20,19,10],
+      g1_sw = [null,null,3229,4883,5209,6502,17508,8910,11876,21963,23810,22960,19528,18230,17626,16136,13885,13931,12300,10401,10156,8649,7556,6983,6170,5728,5297,4853,4432,4137,4034],
+      g1_ostatni = [43032,43715,7043,6736,74800,65982,78963,51895,51083,50067,54755,55694,43561,41097,38685,36808,34627,33083,20683,19044,14211,9823,8236,18449,7063,7178,5881,5000,4021,4225,3465];
+
+const g2_zeme = ["Sýrie","Irák","Bělorusko","Afghánistán","Kuba","Uzbekistán","Kazachstán","Rusko","celkem","Kyrgyzstán","Pákistán","Ázerbájdžán","Moldavsko","Mongolsko","Ukrajina","Arménie","Čína","Gruzie","Vietnam","Nigérie","Turecko","Egypt","Alžírsko","Indie","Slovensko"],
+      g2_azyl = [7.3,24.8,19.4,19.9,4.4,13.2,10.3,11.8,{y:6.3, color: colors['alldark']},5.9,9.0,7.6,5.7,0.5,{y:2.3, color: colors['ukdark']},6.3,2.5,2.1,1.0,1.7,1.5,1.7,0.0,0.4,0.0],
+      g2_do = [66.3,33.0,25.9,25.3,38.9,19.4,15.7,5.4,{y:10.1, color: colors['all']},7.8,2.9,1.6,3.5,8.4,{y:6.6, color: colors['uk']},1.7,1.7,1.6,2.4,1.7,1.5,0.6,0.9,0.2,0.0];
+
+const g3_obdobi = [1994,1995,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020],
+      g3_celkem = [104343,159207,199152,210311,220187,228862,200951,210794,231608,240421,254294,278312,321456,392315,437565,432503,424291,434153,435946,439189,449367,464670,493441,524142,564345,593366,632570],
+      g3_uk = [14230,28158,46303,43402,52684,65883,50212,51825,59145,62282,78263,87789,102594,126721,131921,131932,124281,118932,112549,105138,104156,105614,109850,117061,131302,145153,165356],
+      g3_sk = [16778,39725,50255,52178,49621,40362,44265,53294,61102,64879,47354,49446,58384,67889,76034,73446,71780,81253,85807,90948,96222,101589,107251,111804,116817,121278,124544],
+      g3_vt = [9633,14213,17620,20950,22875,24824,23556,23924,27143,29046,34179,36833,40779,51101,60255,61115,60289,58205,57300,57347,56609,56900,58025,59761,61097,61910,62842],
+      g3_ru = [3611,4387,6697,8938,10029,16906,12964,12423,12813,12605,14743,16273,18564,23278,27086,30297,31807,32377,32961,33138,34416,34710,35759,36642,38033,38010,41692],
+      g3_de = [4195,5553,5875,5927,6248,6112,4968,4937,5183,5188,5772,7187,10109,15700,17496,13792,13871,15763,17149,18507,19687,20464,21216,21261,21267,21478,20861],
+      g3_pl = [20021,23053,24491,25019,22166,18278,17050,16489,15996,15766,16265,17810,18894,20601,21710,19273,18242,19058,19235,19452,19626,19840,20305,20669,21279,21767,20733],
+      g3_ro = [1368,1628,2029,2382,2694,2577,2390,2304,2302,2273,2588,2701,2816,3177,3615,4091,4410,4842,5664,6777,7741,9116,10826,12562,14684,16824,18396],
+      g3_bg = [3772,4282,4302,6584,5959,5030,4018,4101,4183,4030,4447,4551,4635,5021,5922,6403,6927,7435,8222,9132,10058,10984,12250,13795,15593,17183,17917],
+      g3_mg = [418,477,681,1080,1370,1165,950,1153,1472,1542,2052,2435,3280,6026,8569,5745,5576,5385,5306,5287,5461,5986,6799,7895,9075,9844,10135],
+      g3_ostatni = [30317,37731,40899,43851,46541,47725,40578,40344,42269,42810,48631,53287,61401,72801,84957,86409,87108,90903,91753,93463,95391,99467,111160,122692,135198,139919,150094];
+
+const g4_cat = ['děti', 'dospělí', 'senioři'],
+      g4_m = [-21.6, -10.6, -0.7],
+      g4_f = [21.7, 43.0, 2.5];
+
+const g5_kraj = ["Hlavní město Praha","Karlovarský","Plzeňský","Středočeský","Liberecký","Jihomoravský","Královéhradecký","Pardubický","Jihočeský","Vysočina","Ústecký","Zlínský","Olomoucký","Moravskoslezský"],
+      g5_rel = [
+{"y":3090,"pocet":41251},
+{"y":2153,"pocet":6314},
+{"y":2021,"pocet":11943},
+{"y":1755,"pocet":24533},
+{"y":1622,"pocet":7176},
+{"y":1303,"pocet":15577},
+{"y":1294,"pocet":7127},
+{"y":1264,"pocet":6607},
+{"y":1218,"pocet":7837},
+{"y":1103,"pocet":5613},
+{"y":1025,"pocet":8375},
+{"y":759,"pocet":4405},
+{"y":736,"pocet":4638},
+{"y":693,"pocet":8271}];
+
+Highcharts.chart('g1', {
+  chart: {
+      type: 'column',
+      width: chartWidth, 
+      height: 600 
+  },
+  title: {
+      text: 'Válka v Jugoslávii', 
+      useHTML: true,
+  },
+  subtitle: {
+      useHTML: true,
+      text: 'utečenci z Bosny a Hercegoviny, Chorvatska, Severní Makedonie, Slovinska a Srbska a Černé hory'
+              + '<br><span style="color: #fff">.</span>'
+  },
+  credits: {
+    href : 'https://www.unhcr.org/refugee-statistics/',
+    text : 'Zdroj: Úřad Vysokého komisaře OSN pro uprchlíky'
+  },
+  xAxis: {
+      categories: g1_obdobi,
+      title: {
+          text: ''
+      },
+/*      plotBands: [{
+          color: colors['tapeta'], 
+          from: -0.5, 
+          to: 5.5,
+          label: { 
+              text: 'Efekt cizineckého zákona<br/>z roku 2000',  
+              align: 'right',
+              x: -10,
+              y: +20
+          } 
+      }],
+      plotLines: [{
+          color: colors['all'], 
+          value: 9.5, 
+          dashStyle: 'dot',
+          label: { 
+              text: 'Začátek<br/>války<br/>na východní<br/>Ukrajině',  
+              align: 'left',
+              rotation: 0,
+              x: +10,
+              y: +20
+          } 
+      }] */
+  },
+  yAxis: {
+      title: {
+          text: 'utečenci'
+      },
+      reversedStacks: false,
+      format: '{value: .0f}'
+  }, 
+  tooltip: {
+    valueSuffix: '',
+    shared: true
+  },
+  exporting: {
+      enabled: false
+  },
+  legend: {
+      title: {
+          text: ''
+      }
+  },
+  plotOptions: {
+      column: {
+          stacking: 'stacked',
+          dataLabels: {
+              enabled: false
+          },
+          enableMouseTracking: true,
+          pointPadding: 0.1,
+          groupPadding: 0.15,
+          borderWidth: 0
+      }
+  },
+  series: [
+  {
+    name: 'bývalá Jugoslávie',
+    data: g1_doma,
+    color: colors['doma'],
+    visible: false
+
+  },
+  {
+    name: 'Německo',
+    data: g1_de,
+    color: colors['1']
+  },
+  {
+    name: 'Švédsko',
+    data: g1_se,
+    color: colors['2']
+  },
+  {
+    name: 'Rakousko',
+    data: g1_at,
+    color: colors['3']
+  },
+  {
+    name: 'Francie',
+    data: g1_fr,
+    color: colors['4']
+  },
+  {
+    name: 'Nizozemsko',
+    data: g1_nl,
+    color: colors['5']
+  },
+  {
+    name: 'Dánsko',
+    data: g1_dn,
+    color: colors['6']
+  },
+  {
+    name: 'Švýcarsko',
+    data: g1_sw,
+    color: colors['7']
+  },
+  {
+    name: 'zbytek Evropy',
+    data: g1_ostatni,
+    color: colors['8']
+  }
+]
+});
+
+Highcharts.chart('g2', {
+  chart: {
+      type: 'bar',
+      width: chartWidth, 
+      height: 600 
+  },
+  title: {
+      text: 'Úspěšnost žádostí o mezinárodní ochranu', 
+      useHTML: true,
+  },
+  subtitle: {
+      useHTML: true,
+      text: 'Česko, 2004 až 2020, vybrány země s nejméně dvěma stovkami žádostí'
+              + '<br><span style="color: #fff">.</span>'
+  },
+  credits: {
+    href : 'https://www.czso.cz/csu/cizinci/mezinarodni-ochrana-rocni-udaje',
+    text : 'Zdroj: ČSÚ'
+  },
+  xAxis: {
+      categories: g2_zeme,
+      title: {
+          text: ''
+      }
+  },
+  yAxis: {
+      title: {
+          text: 'úspěšnost žádostí'
+      },
+      labels: {
+        formatter: function () {
+          return this.value + ' %';
+        },
+      },
+      min: 0,
+      max: 100,
+      reversedStacks: false
+  }, 
+  tooltip: {
+    valueSuffix: ' %',
+    shared: true
+  },
+  exporting: {
+      enabled: false
+  },
+  legend: {
+      title: {
+          text: ''
+      }
+  },
+  plotOptions: {
+      bar: {
+          stacking: 'stacked',
+          dataLabels: {
+              enabled: false
+          },
+          enableMouseTracking: true,
+          pointPadding: 0.1,
+          groupPadding: 0.15,
+          borderWidth: 0
+      }
+  },
+  series: [ 
+  {
+    name: 'Azyl',
+    data: g2_azyl,
+    color: colors['ru']
+  },
+  {
+    name: 'Doplňková ochrana',
+    data: g2_do,
+    color: colors['vt']
+  }
+]
+});
+
+Highcharts.chart('g3', {
+  chart: {
+      type: 'line',
+      width: chartWidth, 
+      height: 600 
+  },
+  title: {
+      text: 'Ekonomická migrace do Česka', 
+      useHTML: true,
+  },
+  subtitle: {
+      useHTML: true,
+      text: 'Ukrajinci jsou největší menšinou v Česku, v roce 2020 jich v zemi žilo víc než 165 tisíc. Naprostá většina jsou ekonomičtí migranti, azylantů je minimum.'
+              + '<br><span style="color: #fff">.</span>'
+  },
+  credits: {
+    href : 'https://www.czso.cz/csu/cizinci/4-ciz_pocet_cizincu',
+    text : 'Zdroj: ČSÚ'
+  },
+  xAxis: {
+      categories: g3_obdobi,
+      title: {
+          text: ''
+      },
+      plotBands: [{
+          color: colors['tapeta'], 
+          from: 11, 
+          to: 13,
+          label: { 
+              text: 'boom před<br/>ekonomickou<br/>krizí',  
+              align: 'center',
+              y: +20
+          } 
+      }, {
+          color: colors['tapeta'], 
+          from: 15, 
+          to: 20,
+          label: { 
+              text: 'pokrizový<br/>propad',  
+              align: 'center',
+              y: +20
+          } 
+      }]
+  },
+  yAxis: {
+      title: {
+          text: 'počet cizinců'
+      },
+      labels: {
+        formatter: function () {
+          return this.value + '';
+        },
+      },
+      min: 0
+  }, 
+  tooltip: {
+    valueSuffix: '',
+    shared: true
+  },
+  exporting: {
+      enabled: false
+  },
+  legend: {
+      title: {
+          text: ''
+      }
+  },
+  plotOptions: {
+      line: {
+          dataLabels: {
+              enabled: true,
+          },
+          enableMouseTracking: true,
+          color: colors.default,
+          lineWidth: 1.5,
+          dataLabels: {
+              enabled: false,
+          },
+          marker: {
+              symbol: 'circle',
+              radius: 3
+          },
+          pointPlacement: 'on'
+      },
+  },
+  series: [
+  {
+    name: 'celkem',
+    data: g3_celkem,
+    color: colors['all'],
+    visible: false
+  }, 
+  {
+    name: 'Ukrajina',
+    data: g3_uk,
+    color: colors['uk']
+  },
+  {
+    name: 'Slovensko',
+    data: g3_sk,
+    color: colors['sk'],
+    visible: false
+  },
+  {
+    name: 'Vietnam',
+    data: g3_vt,
+    color: colors['vt'],
+    visible: false
+  },
+  {
+    name: 'Rusko',
+    data: g3_ru,
+    color: colors['ru'],
+    visible: false
+  },
+  {
+    name: 'Německo',
+    data: g3_de,
+    color: colors['de'],
+    visible: false
+  },
+  {
+    name: 'Polsko',
+    data: g3_pl,
+    color: colors['pl'],
+    visible: false
+  },
+  {
+    name: 'Rumunsko',
+    data: g3_ro,
+    color: colors['ro'],
+    visible: false
+  },
+  {
+    name: 'Bulharsko',
+    data: g3_bg,
+    color: colors['bu'],
+    visible: false
+  },
+  {
+    name: 'Mongolsko',
+    data: g3_mg,
+    color: colors['mg'],
+    visible: false
+  },
+  {
+    name: 'ostatní',
+    data: g3_ostatni,
+    color: colors['alldark'],
+    visible: false
+  }
+]
+});
+
+Highcharts.chart('g4', {
+    chart: {
+        type: 'bar',
+        width: chartWidth, 
+        height: 300
+    },
+    title: {
+        text: 'Pobytová oprávnění v souvislosti s válkou na Ukrajině',
+        useHTML: true
+    },
+    subtitle: {
+        text: 'aktuální k 16.3.'
+              + '<br><span style="color: #fff">.</span>',
+        useHTML: true
+    },
+    credits: {
+        href : 'https://www.mvcr.cz/clanek/informativni-pocty-obyvatel-v-obcich.aspx',
+        text : 'Zdroj: Ministerstvo vnitra'
+    },
+    xAxis: [{
+        categories: g4_cat,
+        reversed: false,
+        labels: {
+            step: 1
+        }
+    }, { 
+        opposite: true,
+        reversed: false,
+        categories: g4_cat,
+        linkedTo: 0,
+        labels: {
+            step: 1
+        }
+    }],
+    yAxis: {
+        title: {
+            text: null
+        },
+        labels: {
+            formatter: function () {
+                return Math.abs(this.value) + '%';
+            }
+        }
+    },
+    exporting: {
+        enabled: false
+    },
+    plotOptions: {
+        series: {
+            stacking: 'normal'
+        }
+    },
+    tooltip: {
+        formatter: function () {
+            return '<b>' + this.series.name + ', věk ' + this.point.category + '</b><br/>' + Highcharts.numberFormat(Math.abs(this.point.y), 1) + '%';
+        }
+    },
+    series: [{
+        name: 'Muži',
+        data: g4_m,
+        color: colors['muzi']
+    }, {
+        name: 'Ženy',
+        data: g4_f,
+        color: colors['zeny']
+    }]
+});
+
+Highcharts.chart('g5', {
+  chart: {
+      type: 'column',
+      width: chartWidth, 
+      height: 500 
+  },
+  title: {
+      text: 'Pobytová oprávnění v souvislosti s válkou na Ukrajině', 
+      useHTML: true,
+  },
+  subtitle: {
+      text: 'aktuální k 16.3.'
+            + '<br><span style="color: #fff">.</span>',
+      useHTML: true
+  },
+  credits: {
+      href : 'https://www.mvcr.cz/clanek/informativni-pocty-obyvatel-v-obcich.aspx',
+      text : 'Zdroj: Ministerstvo vnitra'
+  },
+  xAxis: {
+      categories: g5_kraj,
+      plotBands: [{
+          color: colors['cechy'], 
+          from: -0.5, 
+          to: 4.5,
+          label: { 
+              text: 'Čechy',  
+              align: 'center',
+              y: +20
+          } 
+      }, {
+          color: colors['morava'], 
+          from: 4.5, 
+          to: 5.5
+      }, {
+          color: colors['cechy'], 
+          from: 5.5, 
+          to: 8.5
+      }, {
+          color: colors['morava'], 
+          from: 8.5, 
+          to: 9.5
+      }, {
+          color: colors['cechy'], 
+          from: 9.5, 
+          to: 10.5
+      }, {
+          color: colors['morava'], 
+          from: 10.5, 
+          to: 13.5,
+          label: { 
+              text: 'Morava',  
+              align: 'center',
+              y: +20
+          } 
+      }]
+  },
+  yAxis: {
+      title: {
+          text: 'běženci'
+      },
+      labels: {
+            formatter: function () {
+              return this.value + '  /100 tisíc';
+            },
+      }
+  }, 
+  tooltip: {
+    formatter: function () {
+        return '<b>' + this.point.category + '</b><br/>' + this.point.y + ' běženců na 100 tisíc obyvatele <br/>' + this.point.pocet + ' běženců absolutně';
+    }
+  },
+  exporting: {
+      enabled: false
+  },
+  legend: {
+      enabled: false
+  },
+  plotOptions: {
+      column: {
+          stacking: 'stacked',
+          dataLabels: {
+              enabled: false
+          },
+          enableMouseTracking: true,
+          pointPadding: 0.1,
+          groupPadding: 0.15,
+          borderWidth: 0
+      }
+  },
+  series: [
+  {
+    name: 'Podíl',
+    data: g5_rel,
+    color: colors['uk']
+  }
+]
+});  
+
+</script>
