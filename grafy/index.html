@@ -104,6 +104,7 @@ text.highcharts-credits {
 
 <!-- html -->
 <div id="g1"></div>
+<div id="g2"></div>
 
 <script>
 
@@ -218,7 +219,7 @@ Highcharts.chart('g1', {
       height: 600 
   },
   title: {
-      text: 'Válka v Jugoslávii 1991–2001', 
+      text: 'Války v Jugoslávii 1991–2001', 
       useHTML: true,
   },
   subtitle: {
@@ -240,11 +241,21 @@ Highcharts.chart('g1', {
       plotBands: [{
           color: colors['tapeta'], 
           from: -0.5, 
+          to: 0.5,
+          label: { 
+              text: 'Válka ve<br/>Slovinsku',  
+              align: 'left',
+              x: +5,
+              y: +5
+          } 
+      }, {
+          color: colors['tapeta'], 
+          from: 0.6, 
           to: 4.5,
           label: { 
-              text: 'Válka<br/>ve Slovinsku<br/><br/>Chorvatská válka<br/>za nezávislost<br/><br/>Válka v Bosně<br/>a Hercegovině',  
+              text: 'Chorvatská válka za nezávislost,<br/>válka v Bosně a Hercegovině',  
               align: 'left',
-              x: +10,
+              x: +5,
               y: +5
           } 
       }, {
@@ -254,7 +265,7 @@ Highcharts.chart('g1', {
           label: { 
               text: 'Válka v Kosovu',  
               align: 'left',
-              x: +10,
+              x: +5,
               y: +5
           }
       }, {
@@ -264,7 +275,7 @@ Highcharts.chart('g1', {
           label: { 
               text: 'Občanská válka v Makedonii',  
               align: 'left',
-              x: +10,
+              x: +5,
               y: +5
           }
       }] 
@@ -344,6 +355,145 @@ Highcharts.chart('g1', {
   {
     name: 'země bývalé Jugoslávie',
     data: g1_doma,
+    color: colors['9'],
+    visible: false
+  }
+]
+});
+
+Highcharts.chart('g2', {
+  chart: {
+      type: 'column',
+      width: 1000, 
+      height: 600 
+  },
+  title: {
+      text: 'Válka v Jugoslávii 1991–2001', 
+      useHTML: true,
+  },
+  subtitle: {
+      useHTML: true,
+      text: '• utečenci ze zemí bývalé Jugoslávie'
+              + '<br>• vybrány evropské země s největším počtem uprchlíků na hlavu, pro srovnání i Česko'
+              + '<br>• kliknutím do legendy zobrazíte uprchlíky, kteří zůstali v zemích bývalé Jugoslávie'
+              + '<br><span style="color: #fff">.</span>'
+  },
+  credits: {
+    href : 'https://www.unhcr.org/refugee-statistics/',
+    text : 'Zdroj: Úřad Vysokého komisaře OSN pro uprchlíky'
+  },
+  xAxis: {
+      categories: g2_obdobi,
+      title: {
+          text: ''
+      },
+      plotBands: [{
+          color: colors['tapeta'], 
+          from: -0.5, 
+          to: 4.5,
+          label: { 
+              text: 'Válka<br/>ve Slovinsku<br/><br/>Chorvatská válka<br/>za nezávislost<br/><br/>Válka v Bosně<br/>a Hercegovině',  
+              align: 'left',
+              x: +10,
+              y: +5
+          } 
+      }, {
+          color: colors['tapeta'], 
+          from: 5.5, 
+          to: 8.5,
+          label: { 
+              text: 'Válka v Kosovu',  
+              align: 'left',
+              x: +10,
+              y: +5
+          }
+      }, {
+          color: colors['tapeta'], 
+          from: 8.6, 
+          to: 9.5,
+          label: { 
+              text: 'Občanská válka v Makedonii',  
+              align: 'left',
+              x: +10,
+              y: +5
+          }
+      }] 
+  },
+  yAxis: {
+      title: {
+          text: 'utečenců na 100 tisíc obyvatel'
+      },
+      reversedStacks: false,
+      format: '{value: .0f}'
+  }, 
+  tooltip: {
+    valueSuffix: ' / 100 tisíc',
+    shared: true
+  },
+  exporting: {
+      enabled: false
+  },
+  legend: {
+      title: {
+          text: ''
+      }
+  },
+  plotOptions: {
+      column: {
+          stacking: 'stacked',
+          dataLabels: {
+              enabled: false
+          },
+          enableMouseTracking: true,
+          pointPadding: 0.1,
+          groupPadding: 0.15,
+          borderWidth: 0
+      }
+  },
+  series: [
+  {
+    name: 'Švédsko',
+    data: g2_se,
+    color: colors['1']
+  },
+  {
+    name: 'Rakousko',
+    data: g2_at,
+    color: colors['2']
+  },
+  {
+    name: 'Dánsko',
+    data: g2_dn,
+    color: colors['3']
+  },
+  {
+    name: 'Norsko',
+    data: g2_no,
+    color: colors['4']
+  },
+  {
+    name: 'Německo',
+    data: g2_de,
+    color: colors['5']
+  },
+  {
+    name: 'Švýcarsko',
+    data: g2_sw,
+    color: colors['6']
+  },
+  {
+    name: 'Česko',
+    data: g2_cs,
+    color: colors['7']
+  },
+  {
+    name: 'zbytek Evropy',
+    data: g2_ostatni,
+    color: colors['8']
+  },
+  {
+    name: 'země bývalé Jugoslávie',
+    data: g2_doma,
     color: colors['9'],
     visible: false
   }
